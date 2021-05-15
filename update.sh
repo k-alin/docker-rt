@@ -20,13 +20,32 @@ for rt_version in "${!versions[@]}"; do
 
   mkdir -p "$dir"
 
+  if [ "$dir" = "4.2" ]; then
+    # RT::Authen::Token requires v4.2.5 or later
+    cat RT_SiteConfig.pm | sed -e '/Plugin("RT::Authen::Token");/d' \
+                         | tee 4.2/RT_SiteConfig.pm > /dev/null
+    
+    # RT 4.2 does not support --enable-externalauth
+    cat Dockerfile.template | sed -e '/RUN cpanm RT::Authen::Token/{N;d;}' \
+                                  -e '/--enable-externalauth/d' \
+                            | tee "$dir"/Dockerfile > /dev/null
+
+  elif [ "$dir" = 4.4 ]; then
+    cp -a RT_SiteConfig.pm $dir
+    cp -a Dockerfile.template "$dir"/Dockerfile
+
+  else
+    cp -a RT_SiteConfig.pm "$dir"
+
+    # RT::Authen::Token is included with v5.0
+    cat Dockerfile.template | sed '/RUN cpanm RT::Authen::Token/{N;d;}' \
+                            | tee "$dir"/Dockerfile > /dev/null
+  fi
+
   cp -a \
     apache.rt.conf \
     docker-entrypoint.sh \
-    RT_SiteConfig.pm \
     "$dir"
-
-  cp -a Dockerfile.template "$dir"/Dockerfile
 
   sed -i \
     -e "s/%%RT_RELEASE%%/$rt_release/" \
@@ -35,11 +54,3 @@ for rt_version in "${!versions[@]}"; do
     -e "s/%%RT_VERSION%%/$rt_version/" \
     "$dir"/apache.rt.conf "$dir"/docker-entrypoint.sh "$dir"/Dockerfile
 done
-
-# RT 4.2 does not support --enable-externalauth
-sed -i '/--enable-externalauth/d' 4.2/Dockerfile
-
-# RT::Authen::Token requires rt version 4.2.5 or later
-sed -i '/Plugin("RT::Authen::Token");/d' 4.2/RT_SiteConfig.pm
-sed -i '/RUN cpanm RT::Authen::Token/d' 4.2/Dockerfile
-

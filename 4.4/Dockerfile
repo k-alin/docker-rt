@@ -3,7 +3,7 @@ ARG TAG=latest
 FROM ${IMAGE}:${TAG}
 
 LABEL maintainer="Christian Loos <cloos@netsandbox.de>"
-LABEL org.opencontainers.image.source="https://github.com/netsandbox/docker-rt"
+LABEL org.opencontainers.image.source="https://github.com/k-alin/docker-rt"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 

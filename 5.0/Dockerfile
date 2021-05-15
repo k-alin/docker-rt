@@ -3,7 +3,7 @@ ARG TAG=latest
 FROM ${IMAGE}:${TAG}
 
 LABEL maintainer="Christian Loos <cloos@netsandbox.de>"
-LABEL org.opencontainers.image.source="https://github.com/netsandbox/docker-rt"
+LABEL org.opencontainers.image.source="https://github.com/k-alin/docker-rt"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -24,8 +24,6 @@ RUN ./configure \
   && make install \
   && make initdb \
   && rm -rf /usr/local/src/*
-
-RUN cpanm RT::Authen::Token
 
 COPY apache.rt.conf /etc/apache2/sites-available/000-default.conf
 COPY RT_SiteConfig.pm /opt/rt5/etc/RT_SiteConfig.pm
