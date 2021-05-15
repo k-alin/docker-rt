@@ -38,7 +38,3 @@ done
 
 # RT 4.2 does not support --enable-externalauth
 sed -i '/--enable-externalauth/d' 4.2/Dockerfile
-
-# RT::Authen::Token requires rt version 4.2.5 or later
-sed -i '/Plugin("RT::Authen::Token");/d' 4.2/RT_SiteConfig.pm
-
