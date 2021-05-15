@@ -1,6 +1,6 @@
 # Docker images for RT
 
-Includes RT::Authen::Token for RT versions that support this plugin (4.4 and 5.0). 
+Includes RT::Authen::Token and RT::Extension::REST2 for RT versions that support these plugins (4.4 and 5.0). 
 
 [![Super-Linter](https://github.com/cloos/docker-rt/workflows/Super-Linter/badge.svg)](https://github.com/marketplace/actions/super-linter)
 [![Build and Push Docker Image](https://github.com/netsandbox/docker-rt/actions/workflows/build.yml/badge.svg)](https://github.com/netsandbox/docker-rt/actions/workflows/build.yml)
