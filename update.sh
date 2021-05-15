@@ -23,10 +23,12 @@ for rt_version in "${!versions[@]}"; do
   if [ "$dir" = "4.2" ]; then
     # RT::Authen::Token requires v4.2.5 or later
     cat RT_SiteConfig.pm | sed -e '/Plugin("RT::Authen::Token");/d' \
+                               -e '/Plugin("RT::Extension::REST2");/d' \
                          | tee 4.2/RT_SiteConfig.pm > /dev/null
     
     # RT 4.2 does not support --enable-externalauth
     cat Dockerfile.template | sed -e '/RUN cpanm RT::Authen::Token/{N;d;}' \
+                                  -e '/RUN cpanm RT::Extension::REST2/{N;N;d;}' \
                                   -e '/--enable-externalauth/d' \
                             | tee "$dir"/Dockerfile > /dev/null
 

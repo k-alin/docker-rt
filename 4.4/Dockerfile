@@ -27,6 +27,9 @@ RUN ./configure \
 
 RUN cpanm RT::Authen::Token
 
+RUN cpanm RT::Extension::REST2
+RUN rm -rf /opt/rt4/var/mason_data/obj
+
 COPY apache.rt.conf /etc/apache2/sites-available/000-default.conf
 COPY RT_SiteConfig.pm /opt/rt4/etc/RT_SiteConfig.pm
 COPY docker-entrypoint.sh /usr/local/bin/
