@@ -25,6 +25,8 @@ RUN ./configure \
   && make initdb \
   && rm -rf /usr/local/src/*
 
+RUN cpanm RT::Authen::Token
+
 COPY apache.rt.conf /etc/apache2/sites-available/000-default.conf
 COPY RT_SiteConfig.pm /opt/rt5/etc/RT_SiteConfig.pm
 COPY docker-entrypoint.sh /usr/local/bin/
